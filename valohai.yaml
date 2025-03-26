@@ -46,10 +46,5 @@
 - endpoint:
     name: streamlit-inference-ui
     image: python:3.9-slim
-    server-command: >
-      pip install streamlit requests pandas &&
-      streamlit run streamlit_app_ui.py
-      --server.port=8502
-      --server.address=0.0.0.0
-      --server.baseUrlPath=$VH_DEFAULT_PREFIX
+    server-command: pip install streamlit requests pandas && streamlit run streamlit_app_ui.py --server.port=8502 --server.address=0.0.0.0 --server.baseUrlPath=$VH_DEFAULT_PREFIX
     port: 8502
