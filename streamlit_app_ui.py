@@ -54,16 +54,21 @@ if project_id:
                                     exec = node.get("execution", {})
                                     metrics = exec.get("cumulative_metadata", {})
 
-                                    rows.append({
-                                        "Node Name": node["name"],
-                                        "Step": exec.get("step"),
-                                        "Status": node["status"],
-                                        "Duration (s)": round(exec.get("duration", 0), 2),
-                                        "mAP@0.5": metrics.get("metrics/mAP_0.5"),
-                                        "Precision": metrics.get("metrics/precision"),
-                                        "Recall": metrics.get("metrics/recall"),
-                                        "Execution": f"[Open ↗]({exec['urls']['display']})" if exec else "—"
-                                    })
+                                    st.markdown(f"### 🔹 Node: `{node['name']}`")
+                                    st.write(f"**Step:** `{exec.get('step', '-')}`")
+                                    st.write(f"**Status:** `{node['status']}`")
+                                    st.write(f"**Duration:** `{round(exec.get('duration', 0), 2)} seconds`")
+                                    if exec.get("urls", {}).get("display"):
+                                        st.markdown(f"🔗 [View Execution in Valohai]({exec['urls']['display']})")
+
+                                    if metrics:
+                                        st.markdown("#### 📈 Metrics")
+                                        for key, value in metrics.items():
+                                            st.write(f"• `{key}`: {value}")
+                                    else:
+                                        st.info("No metrics available for this node.")
+
+                                    st.divider()
 
                                 df = pd.DataFrame(rows)
                                 st.dataframe(df)
